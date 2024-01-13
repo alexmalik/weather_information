@@ -1,0 +1,9 @@
+<h1 class="mb-8 text-3xl text-center">Weather App</h1>
+
+<div class="mx-auto bg-slate-200 p-4">
+	<h4 class="mb-4">Input the location you want to see the weather for:</h4>
+
+	<%= form_tag('/data', remote: true) do %>
+		<%= text_field_tag 'location', nil, placeholder: 'Type your location' %>
+	<% end %>
+</div>
