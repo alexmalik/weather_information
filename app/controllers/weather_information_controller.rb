@@ -3,8 +3,8 @@ class WeatherInformationController < ApplicationController
 	end
 
 	def data
-		open_weather_key = Rails.application.credentials.open_weather_key
-		uri = "https://api.openweathermap.org/data/2.5/weather?lat=#{params[:location_latitude]}&lon=#{params[:location_longitude]}&appid=#{open_weather_key}"
+		open_weather_service = OpenWeatherService.new(lat: params[:location_latitude], lng: params[:location_longitude])
+		weather_response = open_weather_service.weather
 
 		head :ok
 	end
