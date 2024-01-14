@@ -3,7 +3,42 @@
 <div class="mx-auto bg-slate-200 p-4">
 	<h4 class="mb-4">Input the location you want to see the weather for:</h4>
 
-	<%= form_tag('/data', remote: true) do %>
-		<%= text_field_tag 'location', nil, placeholder: 'Type your location' %>
+	<%= form_tag('/data', id: 'location_form') do %>
+		<%= text_field_tag 'location', nil, placeholder: 'Enter a place', id: 'autocomplete', type: 'text' %>
+		<%= hidden_field_tag 'location_latitude' %>
+		<%= hidden_field_tag 'location_longitude' %>
 	<% end %>
 </div>
+
+<script type="text/javascript">
+	let autocomplete;
+	function initAutocomplete() {
+		autocomplete = new google.maps.places.Autocomplete(
+			document.getElementById('autocomplete'),
+			{
+				types: ['geocode'],
+				fields: ['geometry', 'name']
+			});
+
+		autocomplete.addListener('place_changed', onPlaceChanged);
+	}
+
+	function onPlaceChanged() {
+		var place = autocomplete.getPlace();
+
+		if (!place.geometry) {
+			// User did not select a prediction; reset the input field
+			document.getElementById('autocomplete').placeholder = 'Enter a place';
+		} else {
+			// without this odd conversion .lat returns 'function(){return e}' - very weird
+			var geometry = JSON.stringify(place.geometry.location)
+			var object_geometry = JSON.parse(geometry)
+
+			// send the coords to the server
+			document.getElementById('location_latitude').value = object_geometry.lat
+			document.getElementById('location_longitude').value = object_geometry.lng
+		}
+	}
+</script>
+
+<%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.google_places_key}&libraries=places&callback=initAutocomplete" %>
