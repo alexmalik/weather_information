@@ -3,8 +3,7 @@ class WeatherInformationController < ApplicationController
 	end
 
 	def data
-		open_weather_service = OpenWeatherService.new(lat: params[:location_latitude], lng: params[:location_longitude])
-		weather_response = open_weather_service.weather
+		weather = OpenWeatherService.call(params[:location_latitude], params[:location_longitude])
 
 		head :ok
 	end

@@ -1,15 +1,15 @@
 require 'open-uri'
 
-class OpenWeatherService
+class OpenWeatherService < ApplicationService
 	attr_accessor :lat, :lng
 
-	def initialize(lat:, lng:)
+	def initialize(lat, lng)
 		@lat = lat
 		@lng = lng
 	end
 
-	def weather
-		JSON.parse(URI.open(uri).read)
+	def call
+		parse weather_info
 	end
 
 	private
@@ -20,5 +20,13 @@ class OpenWeatherService
 
 	def uri
 		"https://api.openweathermap.org/data/2.5/weather?lat=#{lat}&lon=#{lng}&appid=#{api_key}"
+	end
+
+	def parse(response)
+		JSON.parse(response)
+	end
+
+	def weather_info
+		URI.open(uri).read
 	end
 end
