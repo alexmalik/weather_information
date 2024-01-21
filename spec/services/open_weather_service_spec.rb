@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'webmock/rspec'
 
 RSpec.describe OpenWeatherService, type: :model do
-	subject { described_class.call(params[:location_latitude], params[:location_longitude]) }
+	subject(:open_weather_service) { described_class.call(params[:location_latitude], params[:location_longitude]) }
 
 	let(:open_weather_key) { Rails.application.credentials.open_weather_key }
 	let(:params) do
@@ -27,13 +27,21 @@ RSpec.describe OpenWeatherService, type: :model do
 
 	let(:response_body) { File.open('spec/fixtures/open_weather_response_body.json') }
 
-	it 'returns weather information about the provided location' do
+	before do
 		stub_request(:get, uri)
 		.with(headers: request_headers)
 		.to_return(status: 200, body: response_body, headers: {})
+	end
 
-		expect(subject['cod']).to be 200
-		expect(subject['weather'][0]['main']).to eq 'Snow'
-		expect(subject['weather'][0]['description']).to eq 'light snow'
+	it 'returns status 200' do
+		expect(open_weather_service['cod']).to be 200
+		expect(WebMock).to have_requested(:get, uri).with(headers: request_headers).at_least_once
+	end
+
+	it 'returns weather information about the provided location' do
+		expect(open_weather_service['weather'][0]['main']).to eq 'Snow'
+		expect(open_weather_service['weather'][0]['description']).to eq 'light snow'
+		expect(open_weather_service['name']).to eq 'Buffalo'
+		expect(WebMock).to have_requested(:get, uri).with(headers: request_headers).at_least_once
 	end
 end
