@@ -1,0 +1,3 @@
+<%= turbo_stream.replace 'weather_info' do %>
+	<%= render partial: 'weather_information/weather', locals: { weather: @weather_info, location: params[:location] } %>
+<% end %>

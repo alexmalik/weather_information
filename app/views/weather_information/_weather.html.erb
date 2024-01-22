@@ -1,0 +1,60 @@
+<% if weather.present? %>
+	<div id="weather_info">
+		<h1 class="text-xl">Weather in <%= location %></h1>
+
+		<div class="bg-green-50 p-2 m-2">
+			<h6 class="text-lg font-medium">Conditions</h6>
+			<div class="flex">
+				<%= weather['weather'][0]['main'] %> - 
+				<%= weather['weather'][0]['description'] %>
+			</div>
+		</div>
+
+		<div class="flex space-x-8 bg-green-50 p-2 m-2">
+			<div>
+				<h6 class="text-lg font-medium">Temperature</h6>
+				<p><%= weather['main']['temp'] %></p>
+
+				<h6 class="text-lg font-medium">Feels Like:</h6>
+				<p><%= weather['main']['feels_like'] %></p>		
+			</div>
+
+			<div>
+				<h6 class="text-lg font-medium">Min Temp</h6>
+				<p><%= weather['main']['temp_min'] %></p>
+
+				<h6 class="text-lg font-medium">Max Temp</h6>
+				<p><%= weather['main']['temp_max'] %></p>
+			</div>
+		</div>
+
+		<div class="flex space-x-8 bg-green-50 p-2 m-2">
+			<div>
+				<h6 class="text-lg font-medium">Pressure</h6>
+				<p><%= weather['main']['pressure'] %></p>
+
+				<h6 class="text-lg font-medium">Humidity</h6>
+				<p><%= weather['main']['humidity'] %></p>
+			</div>
+
+			<div>
+				<h6 class="text-lg font-medium">Visibility</h6>
+				<p><%= weather['visibility'] %></p>
+
+				<h6 class="text-lg font-medium">Wind</h6>
+				<p><%= weather['wind']['speed'] %></p>
+			</div>
+		</div>
+
+
+		<div class="bg-green-50 p-2 m-2">
+			<h6 class="text-lg font-medium">Sunrise</h6>
+			<p><%= weather['sys']['sunrise'] %></p>
+
+			<h6 class="text-lg font-medium">Sunset</h6>
+			<p><%= weather['sys']['sunset'] %></p>
+		</div>
+	</div>
+<% else %>
+	<div id="weather_info"></div>
+<% end %>

@@ -3,8 +3,14 @@ class WeatherInformationController < ApplicationController
 	end
 
 	def data
-		weather = OpenWeatherService.call(params[:location_latitude], params[:location_longitude])
+		respond_to do |format|
+			if params[:latitude] && params[:longitude]
+				@weather_info = OpenWeatherService.call(params[:latitude], params[:longitude])
 
-		head :ok
+				format.turbo_stream
+			else
+				format.html { redirect_to root_path, notice: 'Please input a valid location' }
+			end
+		end
 	end
 end

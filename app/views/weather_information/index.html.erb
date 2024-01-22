@@ -1,13 +1,17 @@
 <h1 class="mb-8 text-3xl text-center">Weather App</h1>
 
-<div class="mx-auto bg-slate-200 p-4">
+<div class="mx-auto bg-slate-50 p-4">
 	<h4 class="mb-4">Input the location you want to see the weather for:</h4>
 
 	<%= form_tag('/data', id: 'location_form') do %>
 		<%= text_field_tag 'location', nil, placeholder: 'Enter a place', id: 'autocomplete', type: 'text' %>
-		<%= hidden_field_tag 'location_latitude' %>
-		<%= hidden_field_tag 'location_longitude' %>
+		<%= hidden_field_tag 'latitude' %>
+		<%= hidden_field_tag 'longitude' %>
 	<% end %>
+</div>
+
+<div class="bg-green-100 p-4">
+	<%= render partial: 'weather_information/weather', locals: { weather: @weather_info, location: nil } %>
 </div>
 
 <script type="text/javascript">
@@ -35,8 +39,8 @@
 			var object_geometry = JSON.parse(geometry)
 
 			// send the coords to the server
-			document.getElementById('location_latitude').value = object_geometry.lat
-			document.getElementById('location_longitude').value = object_geometry.lng
+			document.getElementById('latitude').value = object_geometry.lat
+			document.getElementById('longitude').value = object_geometry.lng
 		}
 	}
 </script>

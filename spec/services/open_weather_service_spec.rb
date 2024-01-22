@@ -2,13 +2,13 @@ require 'rails_helper'
 require 'webmock/rspec'
 
 RSpec.describe OpenWeatherService, type: :model do
-	subject(:open_weather_service) { described_class.call(params[:location_latitude], params[:location_longitude]) }
+	subject(:open_weather_service) { described_class.call(params[:latitude], params[:longitude]) }
 
 	let(:open_weather_key) { Rails.application.credentials.open_weather_key }
 	let(:params) do
 		{
-			location_latitude: "42.920232", 
-			location_longitude: "-78.851731" 
+			latitude: "42.920232", 
+			longitude: "-78.851731" 
 		}
 	end
 
@@ -22,7 +22,7 @@ RSpec.describe OpenWeatherService, type: :model do
 
 	let(:uri) do
 		"https://api.openweathermap.org/data/2.5/weather?"\
-		"appid=#{open_weather_key}&lat=#{params[:location_latitude]}&lon=#{params[:location_longitude]}"
+		"appid=#{open_weather_key}&lat=#{params[:latitude]}&lon=#{params[:longitude]}"
 	end
 
 	let(:response_body) { File.open('spec/fixtures/open_weather_response_body.json') }
