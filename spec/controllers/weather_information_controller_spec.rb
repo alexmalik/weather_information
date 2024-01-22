@@ -11,6 +11,16 @@ RSpec.describe WeatherInformationController, type: :controller do
 	end
 
 	describe '#data' do
+		context 'with no location params' do
+			it 'redirects to index page with approriate message' do
+				post :data
+
+				expect(response.status).to be 302
+				expect(response).to redirect_to(root_path)
+				expect(flash[:notice]).to eq('Please input a valid location')
+			end
+		end
+
 		context 'with location params' do
 			subject { post :data, params: form_params, as: :turbo_stream }
 			let(:open_weather_key) { Rails.application.credentials.open_weather_key }
