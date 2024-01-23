@@ -4,11 +4,20 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
+# General
+.DS_Store
+
+.rspec
+
+.byebug_history
+
 # Ignore bundler config.
 /.bundle
+/vendor/bundle
 
 # Ignore all environment files (except templates).
 /.env*
+.env*.local
 !/.env*.erb
 
 # Ignore all logfiles and tempfiles.
@@ -30,6 +39,7 @@
 !/tmp/storage/.keep
 
 /public/assets
+/public/system
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
@@ -38,5 +48,6 @@
 !/app/assets/builds/.keep
 
 spec/examples.txt
+/spec/tmp
 
-coverage
+/coverage/
