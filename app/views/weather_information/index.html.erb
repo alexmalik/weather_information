@@ -1,48 +1,32 @@
 <h1 class="mb-8 text-3xl text-center">Weather App</h1>
 
-<div class="mx-auto bg-slate-50 p-4">
-	<h4 class="mb-4">Input the location you want to see the weather for:</h4>
+<div data-controller="weather">
+	<div class="mx-auto bg-slate-50 p-4">
+		<h4 class="mb-4">Input the location you want to see the weather for:</h4>
 
-	<%= form_tag('/data', id: 'location_form') do %>
-		<%= text_field_tag 'location', nil, placeholder: 'Enter a place', id: 'autocomplete', type: 'text' %>
-		<%= hidden_field_tag 'latitude' %>
-		<%= hidden_field_tag 'longitude' %>
-	<% end %>
-</div>
+		<%= form_tag('/data', id: 'location_form', data: { action: "google-maps-callback@window->weather#initAutocomplete",
+																											 'weather-target': 'form' }) do %>
+			<%= text_field_tag "location", nil, 
+				type: "text", 
+				placeholder: "Search a location", 
+				data: { action: "keydown->weather#manualTyping", "weather-target": "address" } 
+			%>
 
-<div class="bg-green-100 p-4">
+			<input name="latitude" type="hidden" data-weather-target="latitude" />
+			<input name="longitude" type="hidden" data-weather-target="longitude" />
+	 	<% end %>
+	</div>
+
 	<%= render partial: 'weather_information/weather', locals: { weather: @weather_info, location: nil } %>
 </div>
 
 <script type="text/javascript">
-	let autocomplete;
-	function initAutocomplete() {
-		autocomplete = new google.maps.places.Autocomplete(
-			document.getElementById('autocomplete'),
-			{
-				types: ['geocode'],
-				fields: ['geometry', 'name']
-			});
-
-		autocomplete.addListener('place_changed', onPlaceChanged);
-	}
-
-	function onPlaceChanged() {
-		var place = autocomplete.getPlace();
-
-		if (!place.geometry) {
-			// User did not select a prediction; reset the input field
-			document.getElementById('autocomplete').placeholder = 'Enter a place';
-		} else {
-			// without this odd conversion .lat returns 'function(){return e}' - very weird
-			var geometry = JSON.stringify(place.geometry.location)
-			var object_geometry = JSON.parse(geometry)
-
-			// send the coords to the server
-			document.getElementById('latitude').value = object_geometry.lat
-			document.getElementById('longitude').value = object_geometry.lng
-		}
+	window.initAutocomplete = function () {
+	  const event = new Event('google-maps-callback', {
+	    bubbles: true,
+	    cancelable: true,
+	  })
 	}
 </script>
 
-<%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.google_places_key}&libraries=places&callback=initAutocomplete" %>
+<%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.google_api_key}&libraries=places&callback=initAutocomplete" %>
