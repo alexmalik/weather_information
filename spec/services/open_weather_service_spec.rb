@@ -22,7 +22,7 @@ RSpec.describe OpenWeatherService, type: :model do
 
 	let(:uri) do
 		"https://api.openweathermap.org/data/2.5/weather?"\
-		"appid=#{open_weather_key}&lat=#{params[:latitude]}&lon=#{params[:longitude]}"
+		"appid=#{open_weather_key}&lat=#{params[:latitude]}&lon=#{params[:longitude]}&units=imperial"
 	end
 
 	let(:response_body) { File.open('spec/fixtures/open_weather_response_body.json') }
@@ -39,8 +39,8 @@ RSpec.describe OpenWeatherService, type: :model do
 	end
 
 	it 'returns weather information about the provided location' do
-		expect(open_weather_service['weather'][0]['main']).to eq 'Snow'
-		expect(open_weather_service['weather'][0]['description']).to eq 'light snow'
+		expect(open_weather_service['weather'][0]['main']).to eq 'Rain'
+		expect(open_weather_service['weather'][0]['description']).to eq 'light rain'
 		expect(open_weather_service['name']).to eq 'Buffalo'
 		expect(WebMock).to have_requested(:get, uri).with(headers: request_headers).at_least_once
 	end

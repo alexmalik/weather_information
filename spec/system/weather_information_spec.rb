@@ -20,7 +20,7 @@ RSpec.describe 'WeatherInformation', type: :request do
 
 		let(:uri) do
 			"https://api.openweathermap.org/data/2.5/weather?" \
-			"appid=#{open_weather_key}&lat=#{form_params[:latitude]}&lon=#{form_params[:longitude]}"
+			"appid=#{open_weather_key}&lat=#{form_params[:latitude]}&lon=#{form_params[:longitude]}&units=imperial"
 		end
 
 		let(:form_params) do
@@ -69,7 +69,7 @@ RSpec.describe 'WeatherInformation', type: :request do
 			end
 
 			it 'returns a template with matching id' do
-				expect(response.body).to match(/<div id=\"weather_info\">/)
+				expect(response.body).to match(/<div class=\"bg-green-100 p-4\" id=\"weather_info\" data-weather-target=\"weather\">/)
 				expect(WebMock).to have_requested(:get, uri).with(headers: request_headers).at_least_once
 			end
 		end
