@@ -19,7 +19,7 @@ class OpenWeatherService < ApplicationService
 	end
 
 	def uri
-		"https://api.openweathermap.org/data/2.5/weather?lat=#{lat}&lon=#{lng}&appid=#{api_key}"
+		"https://api.openweathermap.org/data/2.5/weather?lat=#{lat}&lon=#{lng}&appid=#{api_key}&units=imperial"
 	end
 
 	def parse(response)
