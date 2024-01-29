@@ -29,4 +29,4 @@
 	}
 </script>
 
-<%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.google_api_key}&libraries=places&callback=initAutocomplete" %>
+<%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.google_api_key}&loading=async&libraries=places&callback=initAutocomplete" %>
