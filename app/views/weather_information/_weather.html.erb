@@ -1,6 +1,6 @@
 <% if weather.present? %>
 	<% weather_presenter = WeatherPresenter.new(weather) %>
-	<div class="bg-green-100" data-weather-target="weather">
+	<div class="bg-green-100" id="weather_info" data-weather-target="weather">
 		<div class="bg-green-50 p-4">
 			<h1 class="text-xl">Weather in <%= location %></h1>
 		</div>
