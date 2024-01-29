@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <style>
+      html {
+        animation: fouc-fix 5s steps(1);
+      }
+
+      @keyframes fouc-fix {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+      }
+    </style>
+    
     <title>Weather</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
